@@ -49,10 +49,15 @@ npm run lint      # oxlint
   el mismo logo recompuesto en horizontal y en versión clara (tinta blanca, "A3"
   azul): el primero para el header, el segundo con la bajada para el pie.
 - `public/favicon.png` se generó desde el emblema.
+- `scripts/build-brand-assets.py` regenera los cuatro lockups y el favicon desde
+  el maestro (requiere Pillow): `python scripts/build-brand-assets.py`.
 
 ## Notas de diseño
 
-- Paleta y espaciado en variables CSS (`:root`) en `src/index.css`.
+- Tema claro: fondo blanco, secciones alternadas en gris muy claro (`--paper`) y
+  azul corporativo `#0f6fd0` como acento. Todo en variables CSS (`:root`) en
+  `src/index.css`; los pares de color estan elegidos para pasar AA (4.5:1) en
+  texto chico.
 - Tipografías Manrope (títulos) e Inter (texto), cargadas desde Google Fonts con
   fallback al sistema.
 - Breakpoints: 1180, 1080 (menú móvil), 960, 700 px.

@@ -3,7 +3,7 @@ import { IconArrowRight, IconArrowUpRight } from "./Icons";
 
 export function ProjectsSection() {
   return (
-    <section className="section section-dark" id="proyectos">
+    <section className="section section-projects" id="proyectos">
       <div className="container">
         <div className="section-head split">
           <div className="section-head-main">

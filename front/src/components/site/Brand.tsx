@@ -1,10 +1,9 @@
-import lockup from "../../assets/brand/logo-lockup-light.png";
-import lockupWithTagline from "../../assets/brand/logo-lockup-tagline-light.png";
+import lockup from "../../assets/brand/logo-lockup-dark.png";
+import lockupWithTagline from "../../assets/brand/logo-lockup-tagline-dark.png";
 
 /**
- * Logo oficial de A3 TECHNOLOGY E.A.S.
- * Variante clara (tinta blanca + A3 azul) para fondos oscuros; el original
- * con tinta oscura esta en public/A3_Technology_logo_transparente.png.
+ * Logo oficial de A3 TECHNOLOGY E.A.S en su tinta original, para fondos claros.
+ * El maestro sin recortar esta en public/A3_Technology_logo_transparente.png.
  */
 export function Brand({ tagline = false }: { tagline?: boolean }) {
   const src = tagline ? lockupWithTagline : lockup;

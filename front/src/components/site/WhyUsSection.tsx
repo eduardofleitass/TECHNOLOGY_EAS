@@ -3,7 +3,7 @@ import { Icon } from "./Icons";
 
 export function WhyUsSection() {
   return (
-    <section className="section section-plain" id="nosotros">
+    <section className="section section-light" id="nosotros">
       <div className="container whyus">
         <div className="whyus-intro">
           <p className="eyebrow eyebrow-dash">{whyUs.eyebrow}</p>
