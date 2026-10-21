@@ -48,8 +48,11 @@ npm run lint      # oxlint
 - `src/assets/brand/logo-lockup-light.png` y `logo-lockup-tagline-light.png` son
   el mismo logo recompuesto en horizontal y en versión clara (tinta blanca, "A3"
   azul): el primero para el header, el segundo con la bajada para el pie.
-- `public/favicon.png` se generó desde el emblema.
-- `scripts/build-brand-assets.py` regenera los cuatro lockups y el favicon desde
+- El favicon usa el nucleo del emblema (anillo + manos) recortado en circulo y
+  montado sobre una placa clara, porque el emblema completo se empasta a 16 px.
+  Se publican `favicon.ico` (16/32/48/64), `favicon-32.png` y
+  `apple-touch-icon.png` (180, opaco para iOS).
+- `scripts/build-brand-assets.py` regenera los cuatro lockups y los iconos desde
   el maestro (requiere Pillow): `python scripts/build-brand-assets.py`.
 
 ## Notas de diseño

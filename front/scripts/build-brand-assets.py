@@ -20,7 +20,7 @@ Requiere Pillow.
 
 from pathlib import Path
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "public" / "A3_Technology_logo_transparente.png"
@@ -87,6 +87,65 @@ def build(emblem, name, tagline, *, em_h, name_h, tag_h=None, gap=18, text_gap=8
     return canvas
 
 
+# --- Favicon ---------------------------------------------------------------
+# El emblema completo no sobrevive a 16 px: los rayos y el anillo se mezclan en
+# una mancha. Para el icono se usa el nucleo (anillo + manos), recortado en
+# circulo para sacar los rayos, sobre una placa clara con el borde apenas
+# marcado: se lee igual en pestanas claras y oscuras.
+CORE_CENTER = (249, 187)  # centro del nucleo, en coordenadas del maestro
+CORE_RADIUS = 86
+ICON_SIZE = 512
+ICON_FILL = 0.84
+ICON_PLATE = (244, 248, 253)
+ICON_EDGE = (214, 227, 242)
+
+
+def icon_core(master: Image.Image) -> Image.Image:
+    """Nucleo del emblema (anillo + manos) recortado en circulo. Los rayos que
+    salen del anillo se cortan con un borde suave para que no queden tallos."""
+    cx, cy, r = *CORE_CENTER, CORE_RADIUS
+    core = master.crop((cx - r, cy - r, cx + r, cy + r)).convert("RGBA")
+    mask = Image.new("L", core.size, 0)
+    ImageDraw.Draw(mask).ellipse((0, 0, core.size[0] - 1, core.size[1] - 1), fill=255)
+    mask = mask.filter(ImageFilter.GaussianBlur(6))
+    core.putalpha(Image.composite(core.getchannel("A"), Image.new("L", core.size, 0), mask))
+    return core
+
+
+def icon_tile(core: Image.Image, size: int, fill: float = ICON_FILL) -> Image.Image:
+    tile = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
+    ImageDraw.Draw(tile).rounded_rectangle(
+        (0, 0, ICON_SIZE - 1, ICON_SIZE - 1),
+        radius=int(ICON_SIZE * 0.22),
+        fill=(*ICON_PLATE, 255),
+        outline=(*ICON_EDGE, 255),
+        width=max(2, ICON_SIZE // 128),
+    )
+    side = int(ICON_SIZE * fill)
+    c = core.resize((side, side), Image.LANCZOS)
+    tile.alpha_composite(c, ((ICON_SIZE - side) // 2, (ICON_SIZE - side) // 2))
+    return tile.resize((size, size), Image.LANCZOS)
+
+
+def build_favicons(master: Image.Image) -> None:
+    public = ROOT / "public"
+    core = icon_core(master)
+
+    # .ico multi-tamano: Windows, Firefox y marcadores viejos
+    frames = [icon_tile(core, s, 0.88 if s <= 32 else ICON_FILL) for s in (16, 32, 48, 64)]
+    frames[-1].save(
+        public / "favicon.ico",
+        format="ICO",
+        sizes=[(16, 16), (32, 32), (48, 48), (64, 64)],
+        append_images=frames[:-1],
+    )
+
+    # PNG para navegadores modernos (sizes=32) y para la pantalla de inicio de iOS
+    icon_tile(core, 32, 0.88).save(public / "favicon-32.png")
+    # iOS ignora la transparencia: se entrega opaco
+    icon_tile(core, 180, 0.8).convert("RGB").save(public / "apple-touch-icon.png")
+
+
 def main() -> None:
     master = Image.open(MASTER).convert("RGBA")
     em, nm, tg = (master.crop(box) for box in (EMBLEM, NAME, TAGLINE))
@@ -109,18 +168,7 @@ def main() -> None:
         OUT / "logo-lockup-tagline-light.png"
     )
 
-    # Favicon: emblema claro sobre placa navy, legible en pestanas claras y oscuras
-    size = 128
-    icon = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    ImageDraw.Draw(icon).rounded_rectangle(
-        (0, 0, size - 1, size - 1), radius=26, fill=(7, 20, 38, 255)
-    )
-    emblem_icon = resize_h(to_light(em), round(size * 0.78))
-    icon.alpha_composite(
-        emblem_icon, ((size - emblem_icon.size[0]) // 2, (size - emblem_icon.size[1]) // 2)
-    )
-    icon.save(ROOT / "public" / "favicon.png")
-
+    build_favicons(master)
     print("listo:", ", ".join(sorted(p.name for p in OUT.glob("*.png"))))
 
 
