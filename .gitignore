@@ -1,0 +1,36 @@
+# Dependencias
+node_modules/
+
+# Builds y artefactos de compilacion
+back/dist/
+front/dist/
+front/dist-ssr/
+*.tsbuildinfo
+
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Datos de runtime (no versionar los JSON con datos reales)
+back/data/*.json
+!back/data/*.example.json
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+# Cobertura de tests
+coverage/
+.nyc_output/
+
+# Editores y sistema operativo
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp

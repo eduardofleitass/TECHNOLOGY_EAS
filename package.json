@@ -1,0 +1,14 @@
+{
+  "name": "a3-technology-eas",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo de A3 TECHNOLOGY E.A.S: backend NestJS + frontend React/Vite",
+  "scripts": {
+    "install:all": "npm --prefix back install && npm --prefix front install",
+    "dev:back": "npm --prefix back run start:dev",
+    "dev:front": "npm --prefix front run dev",
+    "build": "npm --prefix back run build && npm --prefix front run build",
+    "lint": "npm --prefix back run lint && npm --prefix front run lint",
+    "test": "npm --prefix back run test && npm --prefix back run test:e2e"
+  }
+}
