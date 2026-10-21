@@ -1,32 +1,51 @@
-# React + TypeScript + Vite
+# Front — A3 TECHNOLOGY E.A.S
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Sitio corporativo en React 19 + Vite + TypeScript.
 
-Currently, two official plugins are available:
+## Estructura
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```
+src/
+├── App.tsx                 orden de las secciones
+├── index.css               hoja de estilos única (tokens arriba)
+├── assets/img/             fotos del sitio (jpg optimizado)
+├── components/site/
+│   ├── Brand.tsx           isotipo + nombre
+│   ├── Icons.tsx           set de iconos SVG (line icons)
+│   ├── SiteHeader.tsx      navegación, buscador y menú móvil
+│   ├── Hero.tsx            portada con tarjeta de beneficios
+│   ├── ServicesSection.tsx 5 tarjetas de servicio
+│   ├── ProjectsSection.tsx 3 proyectos destacados (fondo oscuro)
+│   ├── WhyUsSection.tsx    4 motivos con separadores
+│   ├── ClientsSection.tsx  logos de clientes
+│   ├── CtaSection.tsx      contacto con tarjeta de vidrio
+│   └── SiteFooter.tsx
+└── data/site.ts            TODO el texto y las imágenes del sitio
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Editar contenido
+
+Todo el texto (títulos, servicios, proyectos, clientes, contacto) está en
+`src/data/site.ts`. Las imágenes se importan desde `src/assets/img` y Vite las
+versiona con hash en el build.
+
+Los nombres de clientes son de referencia: reemplazarlos por los reales antes
+de publicar.
+
+## Scripts
+
+```bash
+npm run dev       # desarrollo con HMR en http://localhost:5173
+npm run build     # tsc -b + vite build -> dist/
+npm run preview   # sirve dist/ (puerto 4173)
+npm run lint      # oxlint
+```
+
+## Notas de diseño
+
+- Paleta y espaciado en variables CSS (`:root`) en `src/index.css`.
+- Tipografías Manrope (títulos) e Inter (texto), cargadas desde Google Fonts con
+  fallback al sistema.
+- Breakpoints: 1180, 1080 (menú móvil), 960, 700 px.
+- La API NestJS vive en `../back` y en desarrollo escucha en `:3000`; su CORS ya
+  permite `http://localhost:5173`.

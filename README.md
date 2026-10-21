@@ -53,10 +53,9 @@ Dentro de cada carpeta siguen funcionando los scripts propios
 
 ## Frontend
 
-- React 19 + Vite + TypeScript, con `react-router-dom`.
-- Secciones: landing, servicios, infraestructura (tarjetas y tabla de servidores),
-  panel de alertas y testimonios.
-- Datos de ejemplo en `front/src/data/`.
+- React 19 + Vite + TypeScript, sin router: una sola página con anclas.
+- Secciones: portada, servicios, proyectos, por qué elegirnos, clientes, contacto y pie.
+- Todo el texto vive en `front/src/data/site.ts`; las fotos en `front/src/assets/img/`.
 
 ## Convenciones
 
