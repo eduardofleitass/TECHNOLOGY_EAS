@@ -41,6 +41,15 @@ npm run preview   # sirve dist/ (puerto 4173)
 npm run lint      # oxlint
 ```
 
+## Marca
+
+- `public/A3_Technology_logo_transparente.png` es el logo original (tinta oscura
+  sobre transparente), pensado para fondos claros.
+- `src/assets/brand/logo-lockup-light.png` y `logo-lockup-tagline-light.png` son
+  el mismo logo recompuesto en horizontal y en versión clara (tinta blanca, "A3"
+  azul): el primero para el header, el segundo con la bajada para el pie.
+- `public/favicon.png` se generó desde el emblema.
+
 ## Notas de diseño
 
 - Paleta y espaciado en variables CSS (`:root`) en `src/index.css`.

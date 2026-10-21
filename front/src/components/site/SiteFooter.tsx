@@ -7,7 +7,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="container footer-grid">
         <div className="footer-brand">
-          <Brand />
+          <Brand tagline />
           <p>{footer.description}</p>
           <div className="footer-social">
             <a href="#" aria-label="LinkedIn">
