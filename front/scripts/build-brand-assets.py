@@ -112,11 +112,15 @@ def icon_core(master: Image.Image) -> Image.Image:
     return core
 
 
-def icon_tile(core: Image.Image, size: int, fill: float = ICON_FILL) -> Image.Image:
+def icon_tile(
+    core: Image.Image, size: int, fill: float = ICON_FILL, square: bool = False
+) -> Image.Image:
+    """square=True deja la placa a sangre: iOS redondea el icono por su cuenta y
+    convierte la transparencia en negro si se le entrega un PNG con alfa."""
     tile = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
     ImageDraw.Draw(tile).rounded_rectangle(
         (0, 0, ICON_SIZE - 1, ICON_SIZE - 1),
-        radius=int(ICON_SIZE * 0.22),
+        radius=0 if square else int(ICON_SIZE * 0.22),
         fill=(*ICON_PLATE, 255),
         outline=(*ICON_EDGE, 255),
         width=max(2, ICON_SIZE // 128),
@@ -143,7 +147,9 @@ def build_favicons(master: Image.Image) -> None:
     # PNG para navegadores modernos (sizes=32) y para la pantalla de inicio de iOS
     icon_tile(core, 32, 0.88).save(public / "favicon-32.png")
     # iOS ignora la transparencia: se entrega opaco
-    icon_tile(core, 180, 0.8).convert("RGB").save(public / "apple-touch-icon.png")
+    icon_tile(core, 180, 0.8, square=True).convert("RGB").save(
+        public / "apple-touch-icon.png"
+    )
 
 
 def main() -> None:
